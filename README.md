@@ -1,4 +1,5 @@
-## CHAT APP  Check out the live version of the app here: [Live](https://chatappsocketio.netlify.app/)
+## CHAT APP  
+Check out the live version of the app here: [Live](https://chatappsocketio.netlify.app/)
 
 
 ## Description
