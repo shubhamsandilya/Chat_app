@@ -3,7 +3,6 @@ const cors = require("cors");
 const express = require("express");
 const { default: mongoose } = require("mongoose");
 const connectDB = require("./config/db");
-const { chats } = require("./data/data");
 const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 const path = require("path");
 
