@@ -31,13 +31,13 @@ MERN Chat App is a real-time chat application built using the MERN stack (MongoD
    git clone https://github.com/shubhamsandilya/Chat_app.git
    cd Chat_app
 
-Install server dependencies:
+Install dependencies:
 
    ```sh
+Server
    cd server
    npm i
 
-
-Install client dependencies:
+Client 
 cd client
 npm i
