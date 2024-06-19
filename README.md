@@ -1,9 +1,9 @@
-# MERN Chat App
+#Chat App
 
 
 ## Description
 
-MERN Chat App is a real-time chat application built using the MERN stack (MongoDB, Express, React, Node.js) and Socket.io. It allows users to create accounts, send messages, create group chats, and receive notifications in real-time.
+Chat App is a real-time chat application built using the MERN stack (MongoDB, Express, React, Node.js) and Socket.io. It allows users to create accounts, send messages, create group chats, and receive notifications in real-time.
 
 ## Features
 
