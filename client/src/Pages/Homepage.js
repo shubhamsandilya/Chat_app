@@ -17,11 +17,14 @@ export default function Homepage() {
   return (
     <div
       className="flex items-center justify-center mx-auto min-h-screen bg-cover bg-center"
-      style={{ backgroundImage: `url('/mnt/data/image.png')` }}
+      style={{
+        backgroundImage: `url('https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?size=626&ext=jpg&ga=GA1.1.1141335507.1718755200&semt=sph')`,
+        width: "100%",
+      }}
     >
-      <div className="w-full max-w-6xl p-4 bg-white rounded-lg shadow-md border border-gray-200">
+      <div className="w-[450px] max-w-6xl p-4 bg-white rounded-lg shadow-md border border-gray-200">
         <div className="flex justify-center p-3 mb-4 bg-white rounded-t-lg">
-          <h1 className="text-4xl font-sans text-black">TALKIE</h1>
+          <h1 className="text-4xl font-sans text-black">Chat App</h1>
         </div>
         <div className="flex justify-center mb-4">
           <ul className="flex w-full gap-2">
