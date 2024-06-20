@@ -6,15 +6,12 @@ const connectDB = require("./config/db");
 const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 const path = require("path");
 
-mongoose.set("strictQuery", false);
-
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 
 const corsOptions = {
   origin: "*",
-  // credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
 const app = express();
@@ -26,23 +23,6 @@ app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 
-// ----------------------------DEPLOYMENT--------------------------------------
-
-const __dirname1 = path.resolve();
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname1, "../client/build")));
-  app.get("*", (req, res) => {
-    res.sendFile(
-      path.resolve(__dirname1, "..", "client", "build", "index.html")
-    );
-  });
-} else {
-  app.get("/", (req, res) => {
-    res.send("Api working");
-  });
-}
-
-// ----------------------------DEPLOYMENT--------------------------------------
 app.use(notFound);
 app.use(errorHandler);
 
@@ -55,7 +35,6 @@ const server = app.listen(PORT, () => {
 const io = require("socket.io")(server, {
   cors: {
     origin: "*",
-    // credentials: true
   },
   pingTimeout: 60000,
 });

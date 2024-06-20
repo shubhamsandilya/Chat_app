@@ -6,7 +6,6 @@ import {
   Input,
   Spinner,
   Text,
-  Toast,
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
@@ -19,31 +18,17 @@ import ScrollableChat from "./ScrollableChat";
 import "./styles.css";
 
 import io from "socket.io-client";
-import Lottie from "react-lottie";
-import animationData from "../animations/typing.json";
 
 var socket, selectedChatCompare;
 
 export default function SingleChat({ fetchAgain, setFetchAgain }) {
   const toast = useToast();
-  const { user, selectedChat, setSelectedChat, notification, setNotification } =
-    ChatState();
+  const { user, selectedChat, setSelectedChat } = ChatState();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
 
   const [socketConnected, setSocketConnected] = useState(false);
-  const [typing, setTyping] = useState(false);
-  const [isTyping, setIsTyping] = useState(false);
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -82,8 +67,6 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
     socket = io(`${process.env.REACT_APP_BASE_URL}`);
     socket.emit("setup", user);
     socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", () => setIsTyping(true));
-    socket.on("stop typing", () => setIsTyping(false));
   }, []);
 
   useEffect(() => {
@@ -98,18 +81,12 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
         !selectedChatCompare ||
         selectedChatCompare._id !== newMessageReceived.chat._id
       ) {
-        // Give Notification
-        if (!notification.includes(newMessageReceived)) {
-          setNotification([newMessageReceived, ...notification]);
-          setFetchAgain(!fetchAgain);
-        }
-      } else {
+        setFetchAgain(!fetchAgain);
+
         setMessages([...messages, newMessageReceived]);
       }
     });
   });
-
-  // console.log(notification);
 
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
@@ -122,7 +99,7 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
           },
         };
         setNewMessage("");
-        // this is not affect as setNewMEssage is asyncronous
+
         const { data } = await axios.post(
           `${process.env.REACT_APP_BASE_URL}/api/message`,
           {
@@ -154,21 +131,6 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
 
     // Typing handler logic
     if (!socketConnected) return;
-
-    if (!typing) {
-      setTyping(true);
-      socket.emit("typing", selectedChat._id);
-    }
-    let lastTypingTime = new Date().getTime();
-    var timerLength = 3000;
-    setTimeout(() => {
-      var timeNow = new Date().getTime();
-      var timeDiff = timeNow - lastTypingTime;
-      if (timeDiff >= timerLength && typing) {
-        socket.emit("stop typing", selectedChat._id);
-        setTyping(false);
-      }
-    }, timerLength);
   };
 
   return (
@@ -233,17 +195,6 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
               </div>
             )}
             <FormControl onKeyDown={sendMessage} isRequired mt={3}>
-              {isTyping ? (
-                <div style={{ width: "3rem" }}>
-                  <Lottie
-                    width="7"
-                    style={{ marginBottom: 15, marginLeft: 0 }}
-                    options={defaultOptions}
-                  />
-                </div>
-              ) : (
-                <></>
-              )}
               <Input
                 variant={"filled"}
                 bg="#E0E0E0"
