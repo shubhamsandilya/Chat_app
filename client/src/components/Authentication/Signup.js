@@ -38,9 +38,9 @@ export default function Signup() {
     ) {
       const data = new FormData();
       data.append("file", pics);
-      data.append("upload_preset", "chat-app");
-      data.append("cloud_name", "dczilkqlt");
-      fetch("https://api.cloudinary.com/v1_1/dczilkqlt/image/upload", {
+      data.append("file", pics);
+      data.append("upload_preset", "hirego");
+      fetch("https://api.cloudinary.com/v1_1/dtcfxjepi/image/upload", {
         method: "post",
         body: data,
       })

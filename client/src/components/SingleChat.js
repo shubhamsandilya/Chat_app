@@ -82,7 +82,7 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
         selectedChatCompare._id !== newMessageReceived.chat._id
       ) {
         setFetchAgain(!fetchAgain);
-
+      } else {
         setMessages([...messages, newMessageReceived]);
       }
     });
@@ -90,7 +90,6 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
 
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
-      socket.emit("stop typing", selectedChat._id);
       try {
         const config = {
           headers: {
@@ -109,8 +108,6 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
           config
         );
 
-        // console.log(data);
-
         socket.emit("new message", data);
         setMessages([...messages, data]);
       } catch (error) {
@@ -128,9 +125,6 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
 
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
-
-    // Typing handler logic
-    if (!socketConnected) return;
   };
 
   return (

@@ -1,10 +1,8 @@
 require("dotenv").config();
 const cors = require("cors");
 const express = require("express");
-const { default: mongoose } = require("mongoose");
 const connectDB = require("./config/db");
 const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
-const path = require("path");
 
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
@@ -47,9 +45,6 @@ io.on("connection", (socket) => {
   socket.on("join chat", (room) => {
     socket.join(room);
   });
-
-  socket.on("typing", (room) => socket.in(room).emit("typing"));
-  socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
   socket.on("new message", (newMessageReceived) => {
     var chat = newMessageReceived.chat;
